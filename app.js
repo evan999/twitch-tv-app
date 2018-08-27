@@ -28,7 +28,7 @@ function allStreamCall(streamchannel){
 				game="offline";
 				status="offline";
 				statusDesc="";
-				logo= data.logo;
+				logo="";
 			}
 			else{
 				game=data.channel.game;
