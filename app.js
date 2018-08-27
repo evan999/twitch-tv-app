@@ -17,14 +17,14 @@ function allStreamCall(streamchannel){
 			status="offline";
 			statusDesc="";
 		}
-		else if(data.status=='422'){ /* if user unavailable or closed their account */
+		else if(data.status=='422'){ /* if user is unavailable or closed their account */
 			game=data.message;
 			status="offline";
 			statusDesc="";
 		}
 		else{
 			data=data.stream;
-			if(data===null){ /* means user is offline */
+			if(data===null){ /* user is offline */
 				game="offline";
 				status="offline";
 				statusDesc="";
@@ -37,7 +37,7 @@ function allStreamCall(streamchannel){
 			}
 		}
     /**
-     * call channels api to get channel informations like channel display name, logo and link url etc.
+     * call channels api to get channel information like channel display name, logo and link url etc.
      */
     $.getJSON(channel_url, function(data){
 			name = data.display_name;
