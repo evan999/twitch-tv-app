@@ -8,23 +8,21 @@ function allStreamCall(streamchannel){
 	var streamchannel_url=streamapi+streamchannel+"?callback=?";
 	var channel_url=channelapi+streamchannel+"?callback=?";
 
-  /**
-   * call streaming channels API to see if it is streaming or not and if yes then what it is streaming
-   */
+  
 	$.getJSON(streamchannel_url,function(data){
-		if(data.status=='404'){ /* if user not found */
+		if(data.status=='404'){ 
 			game=data.message;
 			status="offline";
 			statusDesc="";
 		}
-		else if(data.status=='422'){ /* if user is unavailable or closed their account */
+		else if(data.status=='422'){ 
 			game=data.message;
 			status="offline";
 			statusDesc="";
 		}
 		else{
 			data=data.stream;
-			if(data===null){ /* user is offline */
+			if(data===null){ 
 				game="offline";
 				status="offline";
 				statusDesc="";
@@ -36,28 +34,25 @@ function allStreamCall(streamchannel){
 				statusDesc=":"+data.channel.status;
 			}
 		}
-    /**
-     * call channels api to get channel information like channel display name, logo and link url etc.
-     */
+    
     $.getJSON(channel_url, function(data){
 			name = data.display_name;
 			logo = data.logo;
     	channel_link = data.url;
-    	if(data.status=='404'){ /* if channel not found */
+    	if(data.status=='404'){ 
     		name = streamchannel;
     		channel_link="#";
     		logo = data.logo;
     	}
-    	else if(data.status=='422'){ /* if channel unavailable or closed their account */
+    	else if(data.status=='422'){ 
     		name = streamchannel;
     		channel_link = "#";
     		logo = data.logo;
     	}
-    	else if(logo === null){ /* if channel does not have a logo then show the following logo */
+    	else if(logo === null){ 
        logo = data.logo;
 			}
 
-      /* prepare a row for the result in html */
 			var result="\
 			<div class='row' id='"+status+"'>\
 				<div class='col-md-3 col-xs-4'>\
@@ -81,16 +76,12 @@ function allStreamCall(streamchannel){
 };
 
 $(document).ready(function(){
-  /**
-   * Calling allStreamCall function on every channel
-   */
+ 
 	channels.forEach(function(channel){
 		allStreamCall(channel);
 	});
 
-  /**
-   * Show all channels when clicked on All button
-   */
+
   $('#all').click(function(){
   	var all=$('.res .row');
   	all.each(function(index){
@@ -98,9 +89,7 @@ $(document).ready(function(){
   	});
   });
 
-  /**
-   * Show Only online streaming channels and hide the offline ones.
-   */
+ 
   $('#online').click(function(){
   	var online = $('.res .row');
   	online.each(function(index){
@@ -114,9 +103,7 @@ $(document).ready(function(){
   	});
   });
 
-  /**
-   * Show Only offline channels
-   */
+
   $('#offline').click(function(){
   	var offline = $('.res .row');
   	offline.each(function(index){
