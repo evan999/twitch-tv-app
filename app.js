@@ -28,7 +28,7 @@ function allStreamCall(streamchannel){
 				game="offline";
 				status="offline";
 				statusDesc="";
-				logo="http://www.gravatar.com/avatar/3c069b221c94e08e84aafdefb3228346?s=47&d=http%3A%2F%2Fwww.techrepublic.com%2Fbundles%2Ftechrepubliccore%2Fimages%2Ficons%2Fstandard%2Ficon-user-default.png";
+				logo= data.logo;
 			}
 			else{
 				game=data.channel.game;
