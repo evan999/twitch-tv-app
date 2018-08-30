@@ -1,15 +1,16 @@
-var streamapi="https://wind-bow.glitch.me/twitch-api/streams/";
-var channelapi="https://wind-bow.glitch.me/twitch-api/channels/";
-var channels=["freecodecamp", "storbeck", "terakilobyte", "habathcx","RobotCaleb","thomasballinger","noobs2ninjas","beohoff","ESL_SC2","OgamingSC2","comster404","brunofin"];
+var streamsAPI="https://wind-bow.glitch.me/twitch-api/streams/";
+var channelsAPI="https://wind-bow.glitch.me/twitch-api/channels/";
+var channels=["ESL_SC2", "OgamingSC2", "cretetion", "freecodecamp", "storbeck", "habathcx", "RobotCaleb", "noobs2ninjas"];
+
 
 function allStreamCall(streamchannel){
 	var logo,name,game,status,statusDesc,channel_link;
 
-	var streamchannel_url=streamapi+streamchannel+"?callback=?";
-	var channel_url=channelapi+streamchannel+"?callback=?";
+	var streamchannelURL=streamsAPI+streamchannel+"?callback=?";
+	var channelURL=channelsAPI+streamchannel+"?callback=?";
 
   
-	$.getJSON(streamchannel_url,function(data){
+	$.getJSON(streamchannelURL,function(data){
 		if(data.status=='404'){ 
 			game=data.message;
 			status="offline";
@@ -35,42 +36,43 @@ function allStreamCall(streamchannel){
 			}
 		}
     
-    $.getJSON(channel_url, function(data){
-			name = data.display_name;
+    $.getJSON(channelURL, function(data){
+		name = data.display_name;
+		logo = data.logo;
+		channel_link = data.url;
+		
+		if(data.status=='404'){ 
+			name = streamchannel;
+			channel_link="#";
 			logo = data.logo;
-    	channel_link = data.url;
-    	if(data.status=='404'){ 
-    		name = streamchannel;
-    		channel_link="#";
-    		logo = data.logo;
-    	}
+		}
     	else if(data.status=='422'){ 
     		name = streamchannel;
     		channel_link = "#";
     		logo = data.logo;
     	}
     	else if(logo === null){ 
-       logo = data.logo;
-			}
+    		logo = data.logo;
+		}
 
-			var result="\
-			<div class='row' id='"+status+"'>\
-				<div class='col-md-3 col-xs-4'>\
-					<span class='logo'><img class='img img-circle' src='"+logo+"'></span>\
-					<a href='"+channel_link+"'>\
-						<span class='name text-center'>"+name+"</span>\
-					</a>\
-				</div>\
-				<div class='col-md-9 col-xs-8 text-center' id='statusdescription'>\
-					<span class='game'>"+game+"</span>\
-					<span class='status'>"+statusDesc+"</span>\
-				</div>\
-			</div>";
+		var result="\
+		<div class='row' id='"+status+"'>\
+			<div class='col-md-3 col-xs-4'>\
+				<span class='logo'><img class='img img-circle' src='"+logo+"'></span>\
+				<a href='"+channel_link+"'>\
+					<span class='name text-center'>"+name+"</span>\
+				</a>\
+			</div>\
+			<div class='col-md-9 col-xs-8 text-center' id='statusdescription'>\
+				<span class='game'>"+game+"</span>\
+				<span class='status'>"+statusDesc+"</span>\
+			</div>\
+		</div>";
 
-			if(status=='offline')
-		   $('.res').append(result);
+		if(status=='offline')
+		   $('.result').append(result);
 	    else
-    	$('.res').prepend(result);
+    		$('.result').prepend(result);
 		});
    });
 };
@@ -83,7 +85,7 @@ $(document).ready(function(){
 
 
   $('#all').click(function(){
-  	var all=$('.res .row');
+  	var all=$('.result .row');
   	all.each(function(index){
   		$(this).css({'display':'block'});
   	});
@@ -91,7 +93,7 @@ $(document).ready(function(){
 
  
   $('#online').click(function(){
-  	var online = $('.res .row');
+  	var online = $('.result .row');
   	online.each(function(index){
   		var selection=$(this).attr('id');
   		if(selection=='online'){
@@ -105,7 +107,7 @@ $(document).ready(function(){
 
 
   $('#offline').click(function(){
-  	var offline = $('.res .row');
+  	var offline = $('.result .row');
   	offline.each(function(index){
   		var selection=$(this).attr('id');
   		if(selection=='online'){
